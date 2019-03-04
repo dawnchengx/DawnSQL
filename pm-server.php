@@ -5,6 +5,7 @@
  * Date: 2019/3/4
  * Time: 11:12
  */
+require_once "./ext/String.php";
 //确保在连接客户端时不会超时
 set_time_limit(0);
 //设置IP和端口号
@@ -31,6 +32,9 @@ $result = socket_bind($sock, $address, $port) or die("socket_bind() fail:" . soc
 $result = socket_listen($sock, 4) or die("socket_listen() fail:" . socket_strerror(socket_last_error()) . "/n");
 echo "OK\nBinding the socket on $address:$port ... ";
 echo "OK\nNow ready to accept connections.\nListening on the socket ... \n";
+
+$StringOperateObj = new StringOperate();
+
 do { // never stop the daemon
     //它接收连接请求并调用一个子连接Socket来处理客户端和服务器间的信息
     $msgsock = socket_accept($sock) or  die("socket_accept() failed: reason: " . socket_strerror(socket_last_error()) . "/n");
@@ -39,6 +43,9 @@ do { // never stop the daemon
         echo "Read client data \n";
         //socket_read函数会一直读取客户端数据,直到遇见\n,\t或者\0字符.PHP脚本把这写字符看做是输入的结束符.
         $buf = socket_read($msgsock, 8192);
+
+        $result = $StringOperateObj->run($buf);
+
         echo "Received msg: $buf   \n";
 
         if($buf == "bye"){
@@ -48,7 +55,7 @@ do { // never stop the daemon
         }
 
         //数据传送 向客户端写入返回结果
-        $msg = "welcome \n";
+        $msg = json_encode($result);
         socket_write($msgsock, $msg, strlen($msg)) or die("socket_write() failed: reason: " . socket_strerror(socket_last_error()) ."/n");
     }
 
