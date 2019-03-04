@@ -7,6 +7,7 @@
  */
 const SUCCESS = 0;
 const NOTFOUND = -1000;
+const NONSUPPORTCOMMOND = -1100;
 class DataStructure
 {
     static private $instance = null;
@@ -28,6 +29,7 @@ class DataStructure
 }
 interface IDataOperate
 {
+    function run($command);
     function set($key, $value);
     function get($key);
     function del($key);

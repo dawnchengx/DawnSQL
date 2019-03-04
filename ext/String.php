@@ -13,6 +13,28 @@ class StringOperate extends DataOperate implements IDataOperate
     public function __construct() {
         $this->instance = DataStructure::getInstance();
     }
+    function run($command) {
+        $command = explode(" ", $command);
+        switch ($command[0]) {
+            case "set":
+                return $this->set($command[1], $command[2]);
+                break;
+            case "get":
+                return $this->get($command[1]);
+                break;
+            case "del":
+                return $this->del($command[1]);
+                break;
+            case "append":
+                return $this->append($command[1], $command[2]);
+                break;
+            default:
+                $this->result['code'] =  NONSUPPORTCOMMOND;
+                $this->result['msg'] =  "不支持该命令。";
+                return $this->result;
+                break;
+        }
+    }
     function set($key, $value){
         if(!in_array($key, $this->instance->keys)) {
             array_push($this->instance->keys, $key);
