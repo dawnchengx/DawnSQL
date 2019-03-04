@@ -5,7 +5,7 @@
  * Date: 2019/3/4
  * Time: 13:57
  */
-require_once "../core/server/Base.php";
+require_once realpath("../core/server/Base.php");
 
 class StringOperate extends DataOperate implements IDataOperate
 {
