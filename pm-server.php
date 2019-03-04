@@ -10,10 +10,10 @@ set_time_limit(0);
 //设置IP和端口号
 $address = "127.0.0.1";
 $port = 8080;
-if(isset($argv[0])) {
+if(isset($argv[1])) {
     $address = $argv[0];
 }
-if(isset($argv[1])) {
+if(isset($argv[2])) {
     $port = $argv[1];
 }
 
