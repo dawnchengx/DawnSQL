@@ -15,11 +15,8 @@ class StringOperate extends DataOperate implements IDataOperate
     }
     function run($command) {
         $command = explode(" ", $command);
-        var_dump($command);
-        var_dump($command[0]);
         switch ($command[0]) {
             case "set":
-                var_dump(222);
                 return $this->set($command[1], $command[2]);
                 break;
             case "get":
@@ -45,7 +42,6 @@ class StringOperate extends DataOperate implements IDataOperate
         $this->instance->kvs[$key] = $value;
         $this->result['code'] =  SUCCESS;
         $this->result['msg'] =  "成功。";
-        var_dump($this->instance);
         return $this->result;
     }
     function get($key){
@@ -57,7 +53,6 @@ class StringOperate extends DataOperate implements IDataOperate
             $this->result['msg'] =  "成功。";
             $this->result['data'] = $this->instance->kvs[$key];
         }
-        var_dump($this->instance);
         return $this->result;
     }
     function del($key){

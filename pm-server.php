@@ -17,7 +17,6 @@ if(isset($argv[1])) {
 if(isset($argv[2])) {
     $port = $argv[1];
 }
-
 /**
  * 创建一个SOCKET
  * AF_INET=是ipv4 如果用ipv6，则参数为 AF_INET6
@@ -39,16 +38,17 @@ do { // never stop the daemon
     //它接收连接请求并调用一个子连接Socket来处理客户端和服务器间的信息
     $msgsock = socket_accept($sock) or  die("socket_accept() failed: reason: " . socket_strerror(socket_last_error()) . "/n");
     while(1){
+        go(function(){
+            echo 123;
+        });
         //读取客户端数据
         echo "Read client data \n";
         //socket_read函数会一直读取客户端数据,直到遇见\n,\t或者\0字符.PHP脚本把这写字符看做是输入的结束符.
         $buf = socket_read($msgsock, 8192);
-        var_dump($buf);
-
-        //$result = $StringOperateObj->run($buf);
-        //var_dump($result);
-
         echo "Received msg: $buf   \n";
+
+        $buf = trim($buf);
+        $result = $StringOperateObj->run($buf);
 
         if($buf == "bye"){
             //接收到结束消息，关闭连接，等待下一个连接
@@ -57,8 +57,7 @@ do { // never stop the daemon
         }
 
         //数据传送 向客户端写入返回结果
-        //$msg = json_encode($result);
-        $msg = "hello client";
+        $msg = json_encode($result)." \n";
         socket_write($msgsock, $msg, strlen($msg)) or die("socket_write() failed: reason: " . socket_strerror(socket_last_error()) ."/n");
     }
 
