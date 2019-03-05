@@ -22,7 +22,8 @@ class DataStructure
     }
     static public function getInstance() {
         if (NULL === self::$instance) {
-            self::$instance = new __CLASS__();
+            $class_name = __CLASS__;
+            self::$instance = new $class_name();
         }
         return self::$instance;
     }

@@ -5,7 +5,7 @@
  * Date: 2019/3/4
  * Time: 13:57
  */
-require_once realpath("../core/server/Base.php");
+require_once realpath(realpath(dirname(__FILE__)."/../core/server/Base.php"));
 
 class StringOperate extends DataOperate implements IDataOperate
 {
@@ -15,8 +15,11 @@ class StringOperate extends DataOperate implements IDataOperate
     }
     function run($command) {
         $command = explode(" ", $command);
+        var_dump($command);
+        var_dump($command[0]);
         switch ($command[0]) {
             case "set":
+                var_dump(222);
                 return $this->set($command[1], $command[2]);
                 break;
             case "get":
@@ -40,6 +43,9 @@ class StringOperate extends DataOperate implements IDataOperate
             array_push($this->instance->keys, $key);
         }
         $this->instance->kvs[$key] = $value;
+        $this->result['code'] =  SUCCESS;
+        $this->result['msg'] =  "成功。";
+        var_dump($this->instance);
         return $this->result;
     }
     function get($key){
@@ -47,8 +53,11 @@ class StringOperate extends DataOperate implements IDataOperate
             $this->result['code'] =  NOTFOUND;
             $this->result['msg'] =  "该值不存在。";
         }else {
+            $this->result['code'] =  SUCCESS;
+            $this->result['msg'] =  "成功。";
             $this->result['data'] = $this->instance->kvs[$key];
         }
+        var_dump($this->instance);
         return $this->result;
     }
     function del($key){

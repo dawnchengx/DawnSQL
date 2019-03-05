@@ -24,6 +24,7 @@ while ($buff = socket_read($socket, 1024, PHP_NORMAL_READ)) {
     echo("Response was:" . $buff . "\n");
     echo("input what you want to say to the server:\n");
     $text = fgets(STDIN);
+    var_dump($text);
     socket_write($socket, $text);
 }
 socket_close($socket);
